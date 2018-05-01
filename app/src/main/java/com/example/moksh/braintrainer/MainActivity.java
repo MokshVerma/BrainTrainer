@@ -12,9 +12,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView question, mcq1, mcq2, mcq3, mcq4, timer, scorecard, result;
+    TextView question, mcq1, mcq2, mcq3, mcq4, timer, scorecard, result, time, efficiency;
     CountDownTimer countDown;
-    int q1, q2, wrong1, wrong2, wrong3, ans, score=0, numberOfQuestions=1;
+    int q1, q2, wrong1, wrong2, wrong3, ans, score=0, numberOfQuestions=0;
     Button reset;
 
 
@@ -31,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
                 mcq3.setEnabled(false);
                 mcq4.setEnabled(false);
                 result.setText("Your Score: " + score + "/" + numberOfQuestions);
+
+                if(numberOfQuestions!=0){
+                    time.setText("Time taken per question: " + String.format("%.2f" ,(float)30/(float)numberOfQuestions) + "s");
+                    efficiency.setText("Efficiency: " + String.format("%.2f",(float)score*100/(float)numberOfQuestions) + "%");
+                } else{
+                    time.setText("Time taken per question: ∞");
+                    efficiency.setText("Efficiency: 0% (LOL!)");
+                }
+                timer.setVisibility(View.VISIBLE);
+                efficiency.setVisibility(View.VISIBLE);
                 result.setVisibility(View.VISIBLE);
                 reset.setVisibility(View.VISIBLE);
             }
@@ -69,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {  //Checks if the textView is clicked.
             @Override
             public void onClick(View v) {
+                numberOfQuestions++;
                 if (q1+q2 == Integer.parseInt(String.valueOf(textView.getText()))) {   //If the text at the given textView matches the answer.
                     Toast.makeText(getApplicationContext(), "Correct!", Toast.LENGTH_SHORT).show();
                     score++;
@@ -87,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 wrong3 = r.nextInt(50) + 1;
 
                 question.setText(q1 + "+" + q2);
-                numberOfQuestions++;
+
 
                 mcqConditions();
             }
@@ -101,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
         mcq2.setEnabled(true);
         mcq3.setEnabled(true);
         mcq4.setEnabled(true);
+        timer.setVisibility(View.GONE);
+        efficiency.setVisibility(View.GONE);
+        score = 0;
+        numberOfQuestions=0;
         setTimer();
     }
 
@@ -110,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        efficiency = findViewById(R.id.efficiency);
+        time = findViewById(R.id.time);
         result = findViewById(R.id.result);
         reset = findViewById(R.id.playAgain);
         timer = findViewById(R.id.timer);
