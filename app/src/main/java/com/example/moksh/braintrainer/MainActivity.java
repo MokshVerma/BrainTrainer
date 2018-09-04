@@ -36,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
                 result.setText("Your Score: " + score + "/" + numberOfQuestions);
 
                 if(numberOfQuestions!=0){
+                    time.setVisibility(View.VISIBLE);
                     time.setText("Time taken per question: " + String.format("%.2f" ,(float)30/(float)numberOfQuestions) + "s");
                     efficiency.setText("Efficiency: " + String.format("%.2f",(float)score*100/(float)numberOfQuestions) + "%");
                 } else{
+                    time.setVisibility(View.VISIBLE);
                     time.setText("Time taken per question: ∞");
                     efficiency.setText("Efficiency: 0% (LOL!)");
                 }
